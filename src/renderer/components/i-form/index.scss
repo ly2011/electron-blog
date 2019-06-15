@@ -1,0 +1,92 @@
+.form-btn {
+  width: 60px;
+}
+$labelWidths: (
+  75: 75px,
+  80: 80px,
+  100: 100px,
+  120: 120px,
+  140: 140px
+);
+@each $labelWidth in map_keys($labelWidths) {
+  .i-form .label-width-#{$labelWidth} {
+    ::v-deep {
+      .el-form-item__label {
+        @extend %fl;
+        width: map_get($labelWidths, $labelWidth);
+      }
+      .el-form-item__content {
+        margin-left: map_get($labelWidths, $labelWidth);
+      }
+    }
+  }
+}
+
+$operateWidth: 250px;
+%padding-vertical-10 {
+  padding: 3.5px 0;
+}
+
+%fl {
+  float: left;
+}
+
+.i-form {
+  height: 47px;
+  margin: -3.5px 0;
+  overflow: hidden;
+
+  &::v-deep {
+    &.el-form {
+      border-radius: 5px;
+      background: white;
+      font-size: 12px;
+
+      .el-form-item__content,
+      .el-form-item__label {
+        height: 40px;
+      }
+
+      .el-button {
+        padding: 6px 15px;
+      }
+
+      .el-icon-arrow-down {
+        transition: 0.3s;
+      }
+
+      .icon-rotate {
+        .el-icon-arrow-down {
+          transform: rotate(180deg);
+        }
+      }
+
+      .i-form__item {
+        transition: 1s;
+        margin-right: $operateWidth;
+        overflow: hidden;
+      }
+
+      .el-form-item {
+        @extend %fl;
+        @extend %padding-vertical-10;
+        margin-bottom: 0;
+      }
+
+      .el-select,
+      .el-date-editor.el-input {
+        width: 100%;
+      }
+
+      .i-form__operate {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        float: right;
+        width: $operateWidth;
+        margin-top: 10px;
+        margin-right: 7px;
+      }
+    }
+  }
+}
