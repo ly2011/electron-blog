@@ -229,5 +229,6 @@ export default {
 <style lang="scss" scoped>
 .link-btn {
   color: $--color-primary;
+  cursor: pointer;
 }
 </style>

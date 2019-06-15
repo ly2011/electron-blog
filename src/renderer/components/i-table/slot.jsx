@@ -15,7 +15,7 @@ export default {
   },
   render: (h, ctx) => {
     return h(
-      'div',
+      'span',
       ctx.injections.tableRoot.$scopedSlots[ctx.props.column.slot]({
         row: ctx.props.row,
         column: ctx.props.column,
