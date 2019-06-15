@@ -2,6 +2,7 @@
 
 import { app, protocol, BrowserWindow } from 'electron'
 import log from 'electron-log'
+
 import * as application from './services/system/application'
 import * as window from './services/system/window'
 import * as config from './configs/config'
@@ -40,28 +41,12 @@ app.on('activate', () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    // try {
-    //   await installVueDevtools()
-    // } catch (e) {
-    //   console.error('Vue Devtools failed to install:', e.toString())
-    // }
-
-    // let installExtension = require('electron-devtools-installer')
-    // installExtension
-    //   .default(installExtension.VUEJS_DEVTOOLS)
-    //   .then(() => {})
-    //   .catch(err => {
-    //     console.log('Unable to install vue-devtools: \n', err)
-    //   })
-
     // 加载vue-devtool插件(使用你的完整路径)
     // https://www.zhihu.com/question/55615518
     BrowserWindow.addDevToolsExtension(
       'D:/MyData/ex_luyun1/AppData/Local/Google/Chrome/User Data/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.1.0_0'
     )
   }
-  // createWindow()
   application.init(app)
 })
 
