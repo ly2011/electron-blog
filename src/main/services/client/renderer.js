@@ -1,11 +1,8 @@
-// import path from 'path'
 import fs from 'fs'
 import fse from 'fs-extra'
 import Bluebird from 'bluebird'
 
 import simpleGit from 'simple-git/promise'
-import markdown from '../../../shared/utils/markdown'
-// import dayjs from 'dayjs'
 import Model from './model'
 
 Bluebird.promisifyAll(fs)
@@ -67,13 +64,9 @@ class Renderer extends Model {
       // const currentTags = item.data.tags || []
       let toc = ''
       const result = {
-        content: markdown.render(item.content, {
-          tocCallback (tocMarkdown, tocArray, tocHtml) {
-            toc = tocHtml
-          }
-        }),
+        content: item.content,
         fileName: item.fileName,
-        abstract: markdown.render(item.abstract),
+        abstract: item.abstract,
         title: item.data.title,
         tags: item.data.tags,
         date: item.data.date,

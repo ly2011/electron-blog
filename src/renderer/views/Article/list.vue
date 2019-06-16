@@ -24,7 +24,7 @@
       <i-table :columns="columns" :data="tableData" :pagination="pagination" @size-change="sizeChange" @current-change="currentChange" max-height="600" :border="false">
         <template width="100%" slot="title" slot-scope="scope">
           <!-- <el-link type="primary" :underline="false" @click="viewArticle(scope.row)">{{scope.row[scope.prop]}}</el-link> -->
-          <span class="link-btn" @click="viewArticle(scope.row)">{{scope.row[scope.prop]}}</span>
+          <span class="link-btn" @click="viewArticle(scope.row, scope.$index)">{{scope.row[scope.prop]}}</span>
         </template>
         <template width="100%" slot="formatState" slot-scope="scope">
           <el-tag v-if="scope.row[scope.prop] === 'open'" type="success">开启</el-tag>
@@ -152,8 +152,12 @@ export default {
       this.articleUpdateVisible = true
       this.currentArticleFileName = post.fileName
     },
-    viewArticle (post) {
-
+    viewArticle (post, index) {
+      console.log('viewArticle: ', index)
+      const { currentPage, pageSize } = this.pagination
+      console.log('current ', currentPage, pageSize)
+      const postIndex = (currentPage - 1) * pageSize + index + 1
+      this.$router.push(`/article/${postIndex}`)
     },
     async delArticle (post) {
       try {
@@ -190,9 +194,10 @@ export default {
     async getTableData () { // 查询
       this.changeLoading({ payload: true })
       const params = this.getParams()
+      console.log('params: ', params)
       const postData = {
         payload: {
-          current: 1,
+          currentPage: 1,
           pageSize: 10,
           ...params
         },
@@ -205,7 +210,7 @@ export default {
     },
     getParams () { // 获取查询参数
       const params = { ...this.searchData }
-      params.pageIndex = this.pagination.currentPage
+      params.currentPage = this.pagination.currentPage
       params.pageSize = this.pagination.pageSize
       return params
     }

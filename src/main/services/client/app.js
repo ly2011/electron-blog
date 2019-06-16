@@ -1,14 +1,8 @@
 import fse from 'fs-extra'
 import path from 'path'
-import Renderer from './renderer'
 
 const __static = ''
 class App {
-  // mainWindow
-  // app
-  // baseDir
-  // appDir
-  // db
   constructor (setting) {
     this.mainWindow = setting.mainWindow
     this.app = setting.app
@@ -50,12 +44,6 @@ class App {
   }
   async init () {
     await this.checkDir()
-    this.renderHtml()
-  }
-  renderHtml () {
-    // eslint-disable-next-line
-    const renderer = new Renderer(this)
-    // console.log(renderer)
   }
   async checkDir () {
     // Check if there is a .hve-notes folder, if it exists, load it, otherwise use the default configuration.

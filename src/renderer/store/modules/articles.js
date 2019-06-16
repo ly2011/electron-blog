@@ -1,16 +1,19 @@
-import { getArticles } from '@/services/articles'
+import { getArticles, getArticle } from '@/services/articles'
+// eslint-disable-next-line
+import markdown from '@/utils/markdown'
 const articles = {
   namespaced: true,
   state: {
     loading: false,
     list: [],
     pagination: {
-      current: 1,
+      currentPage: 1,
       pageSize: 10,
       total: 0,
       layout: 'total, sizes, prev, pager, next, jumper',
       pageSizes: [10, 20, 50, 100, 200]
-    }
+    },
+    article: {} // 文章详情
   },
 
   mutations: {
@@ -18,12 +21,12 @@ const articles = {
       const { pagination: oldPagination } = state
       const {
         data,
-        pagination: { current, pageSize }
+        pagination: { currentPage, pageSize }
       } = payload
       state.list = data || []
       state.pagination = {
         ...oldPagination,
-        current,
+        currentPage,
         pageSize
       }
     },
@@ -34,16 +37,19 @@ const articles = {
         total: payload
       }
     },
+    saveDetail: (state, payload) => {
+      state.article = payload
+    },
     saveLoading: (state, payload) => {
       state.loading = payload
     }
   },
   actions: {
     async fetchList ({ commit }, { payload, callback } = {}) {
-      const { current, pageSize, ...otherParams } = payload
+      const { currentPage, pageSize, ...otherParams } = payload
       const params = {
         ...otherParams,
-        page: current,
+        page: currentPage,
         per_page: pageSize
       }
       try {
@@ -51,7 +57,7 @@ const articles = {
         commit('saveList', {
           data,
           pagination: {
-            current,
+            currentPage,
             pageSize
           }
         })
@@ -73,6 +79,23 @@ const articles = {
         const total = 100 // TODO: 获取所有列表太耗时间了，暂改为写死100
         commit('saveListCount', total)
         callback && callback(null, total)
+      } catch (error) {
+        callback && callback({ msg: '请求出错' })
+      }
+    },
+    async fetchDetail ({ commit }, { payload, callback } = {}) {
+      const { id } = payload
+      try {
+        const data = await getArticle(id)
+        // console.log('fetchDetail: ', data)
+        // To markdown
+        markdown.marked(data.body).then(res => {
+          console.log('articleDetail: ', res)
+          data.content = res.content
+          data.toc = res.toc
+          commit('saveDetail', data)
+          callback && callback(null, data)
+        })
       } catch (error) {
         callback && callback({ msg: '请求出错' })
       }

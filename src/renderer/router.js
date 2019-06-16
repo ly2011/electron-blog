@@ -51,6 +51,16 @@ export const constantRouterMap = [
           title: '文章',
           icon: 'articles'
         }
+      },
+      {
+        path: 'article/:id',
+        name: 'article',
+        hidden: true,
+        component: () => import(/* webpackChunkName: "about" */ './views/Article/detail.vue'),
+        meta: {
+          title: '文章详情',
+          icon: 'article'
+        }
       }
     ]
   },

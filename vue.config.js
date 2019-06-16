@@ -5,7 +5,11 @@ module.exports = {
   css: {
     loaderOptions: {
       less: {
-        import: [resolve('src/renderer/styles/variables.less'), resolve('element-ui/lib/theme-chalk/index.css')],
+        import: [
+          resolve('src/renderer/styles/variables.less'),
+          resolve('src/renderer/styles/monokai_sublime.less'),
+          resolve('element-ui/lib/theme-chalk/index.css')
+        ],
         javascriptEnabled: true
       },
       sass: {
